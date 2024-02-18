@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { TRPCReactProvider } from "@/trpc/react";
+import Navbar from "./components/ui/navbar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,9 +23,13 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`font-sans ${inter.variable}`}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+      <html lang="en" style={{ scrollBehavior: "smooth" }}>
+        <body className={`font-sans ${inter.variable} scroll-smooth`}>
+          <TRPCReactProvider>
+            <Navbar />
+
+            {children}
+          </TRPCReactProvider>
         </body>
       </html>
     </ClerkProvider>

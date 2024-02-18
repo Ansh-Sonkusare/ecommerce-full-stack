@@ -10,16 +10,15 @@ import SEO from "./components/ui/seo";
 export default function HomePage() {
   return (
     <>
-      <Navbar />
-
       <Title />
 
-      <Feature />
+      <Feature id="Feature" />
 
       <Promo />
 
       <Support />
       <SEO />
+
       <Footer />
     </>
   );
