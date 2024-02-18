@@ -1,14 +1,49 @@
 import { z } from "zod";
-import { faker } from "@faker-js/faker";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { type Product } from "@prisma/client";
-
+import { fakeProduct } from "@/server/data";
+import { env } from "@/env";
+import { auth } from "@clerk/nextjs";
 export const ProductRouter = createTRPCRouter({
-  ListAllProducts: publicProcedure.query(async ({ ctx }) => {
-    const products = await ctx.db.product.findMany();
-    return products;
-  }),
+  getProducts: publicProcedure
+    .input(z.number().optional())
+    .query(async ({ ctx, input = 4 }) => {
+      const products = await ctx.db.product.findMany({ take: input });
+      return products;
+    }),
+  getStripeCheckout: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        description: z.string().nullable(),
+        price: z.number(),
+        quantity: z.number().optional().default(1),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const session = await ctx.stripe.checkout.sessions.create({
+        success_url: env.REDIRECT_URL,
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              unit_amount: input.price * 100,
+              product_data: {
+                name: input.name,
+                description: input.description ?? "",
+              },
+            },
+            quantity: input.quantity,
+          },
+        ],
+        payment_method_types: ["card"],
+
+        mode: "payment",
+      });
+      return session.url;
+    }),
   getProductById: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
@@ -19,27 +54,18 @@ export const ProductRouter = createTRPCRouter({
       });
       return product;
     }),
-  generateProducts: publicProcedure
+
+  fakeProducts: publicProcedure
     .input(z.number().optional())
     .query(async ({ input = 4 }): Promise<Array<Product>> => {
-      const products = [];
+      const products: Array<Product> = [];
       for (let i = 0; i < input; i++) {
-        const product = generateProduct();
+        const product = fakeProduct();
         products.push(product);
       }
       return products;
     }),
-  generateProduct: publicProcedure.query(async () => {
-    return generateProduct();
+  fakeProduct: publicProcedure.query(async () => {
+    return fakeProduct();
   }),
 });
-
-function generateProduct(): Product {
-  return {
-    id: faker.string.uuid(),
-    name: faker.animal.cat(),
-    description: faker.commerce.productDescription(),
-    price: parseInt(faker.commerce.price({ min: 200, max: 800 })),
-    urls: [faker.image.urlLoremFlickr({ category: "cats" })],
-  };
-}

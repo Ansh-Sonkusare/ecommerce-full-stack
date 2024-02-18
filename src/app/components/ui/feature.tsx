@@ -7,7 +7,7 @@ import { HTMLAttributes, type FunctionComponent } from "react";
 interface FeatureProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Feature: FunctionComponent<FeatureProps> = async ({ id }) => {
-  const products = await api.product.generateProducts.query();
+  const products = await api.product.getProducts.query();
 
   return (
     <div className="mb-20 mt-52 flex flex-col items-center" id={id}>
