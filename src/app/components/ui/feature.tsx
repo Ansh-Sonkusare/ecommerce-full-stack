@@ -2,7 +2,7 @@ import { api } from "@/trpc/server";
 import { type Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
-import { HTMLAttributes, type FunctionComponent } from "react";
+import { type HTMLAttributes, type FunctionComponent } from "react";
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface FeatureProps extends HTMLAttributes<HTMLDivElement> {}
 

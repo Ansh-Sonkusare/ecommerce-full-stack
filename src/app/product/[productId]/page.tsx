@@ -7,6 +7,17 @@ import {
   SelectContent,
   Select,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
@@ -16,20 +27,31 @@ import { useEffect, useState, type HTMLAttributes } from "react";
 
 import { api } from "@/trpc/react";
 import { BuyNow } from "@/lib/actions";
+import { useCart } from "@/lib/utils";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default function Product({ params }: { params: { productId: string } }) {
-  const [quantity, setquantity] = useState<number>(1);
+  const [Model, setModel] = useState<boolean>(false);
+  const { addProduct, getProduct } = useCart();
+
+  const [quantity, setquantity] = useState<number>(
+    getProduct(params.productId) ? getProduct(params.productId) : 1,
+  );
   const { data: product, isLoading } = api.product.getProductById.useQuery(
     params.productId,
     {
       refetchOnWindowFocus: false,
-      cacheTime: 10000,
     },
   );
   const handleBuy = async () => {
+    setModel(!Model);
     await BuyNow({ ...product!, quantity: quantity });
 
+    setquantity(1);
+  };
+
+  const handleAddCart = async () => {
+    addProduct({ ...product!, quantity: 1 });
     setquantity(1);
   };
 
@@ -109,7 +131,12 @@ export default function Product({ params }: { params: { productId: string } }) {
                   >
                     Buy Now ;D
                   </Button>
-                  <Button type="button" size="lg" variant="outline">
+                  <Button
+                    onClick={handleAddCart}
+                    type="button"
+                    size="lg"
+                    variant="outline"
+                  >
                     <HeartIcon className="mr-2 h-4 w-4" />
                     Add to wishlist
                   </Button>
@@ -149,6 +176,21 @@ export default function Product({ params }: { params: { productId: string } }) {
               </div>
             </div>
           </div>
+          <AlertDialog open={Model} onOpenChange={() => setModel(!Model)}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </>
       )}
     </>

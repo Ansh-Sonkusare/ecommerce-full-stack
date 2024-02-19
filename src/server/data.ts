@@ -17,14 +17,14 @@ export function fakeProduct(): Product {
     name: faker.animal.cat(),
     description: faker.commerce.productDescription(),
     price: parseInt(faker.commerce.price({ min: 200, max: 800 })),
-    urls: [...getImages(5, "cat")],
+    urls: [...getImages(5, "")],
   };
 }
 
 export function getImages(imgCount: number, category: string) {
   const Images: Array<string> = [];
   for (let i = 0; i < imgCount; i++) {
-    const image = faker.image.urlLoremFlickr({ category: category });
+    const image = faker.image.urlLoremFlickr();
     Images.push(image);
   }
   return Images;
