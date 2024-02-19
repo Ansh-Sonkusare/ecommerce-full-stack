@@ -121,8 +121,8 @@ export default function Product({ params }: { params: { productId: string } }) {
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button
                     size="lg"
-                    variant={"secondary"}
-                    className="bg-green-500 "
+                    variant={"outline"}
+                    className="transition hover:bg-green-500 "
                     onClick={handleBuy}
                   >
                     Buy Now ;D
@@ -132,6 +132,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                     type="button"
                     size="lg"
                     variant="outline"
+                    className=" transition hover:bg-green-500"
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     Add to Cart
