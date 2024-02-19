@@ -21,25 +21,25 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
             </Link>
             <div className="Links flex flex-row gap-9 text-lg ">
               <Link
-                className="rounded-3xl px-4 py-2  transition duration-300 hover:bg-black hover:text-white hover:underline"
+                className=" border-0 border-b-4  border-transparent px-4  py-2 transition   duration-300 hover:border-black "
                 href="/"
               >
                 Home
               </Link>
               <Link
-                className="rounded-3xl px-4 py-2  transition duration-300 hover:bg-black hover:text-white hover:underline"
+                className=" border-0 border-b-4  border-transparent px-4  py-2 transition   duration-300 hover:border-black "
                 href="/#Feature"
               >
                 Products
               </Link>
               <Link
-                className="rounded-3xl px-4 py-2  transition duration-300 hover:bg-black hover:text-white hover:underline"
+                className=" border-0 border-b-4  border-transparent px-4  py-2 transition   duration-300 hover:border-black "
                 href="/"
               >
                 Services
               </Link>
               <Link
-                className="rounded-3xl px-4 py-2  transition duration-300 hover:bg-black hover:text-white hover:underline"
+                className=" border-0 border-b-4  border-transparent px-4  py-2 transition   duration-300 hover:border-black "
                 href="/"
               >
                 Contact us

@@ -64,7 +64,6 @@ export default function Product({ params }: { params: { productId: string } }) {
         <SkeletonCard />
       ) : (
         <>
-          {" "}
           <div className="mx-auto mt-40 grid max-w-7xl items-start gap-6 px-4 py-6 md:grid-cols-2 lg:gap-16">
             <div className="mt-20 grid items-start gap-6">
               <h1 className="text-3xl font-bold lg:text-4xl">
@@ -135,7 +134,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                     variant="outline"
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" />
-                    Add to wishlist
+                    Add to Cart
                   </Button>
                 </div>
               </div>

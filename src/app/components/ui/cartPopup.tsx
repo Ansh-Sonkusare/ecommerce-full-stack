@@ -27,7 +27,7 @@ import { checkoutCart } from "@/lib/actions";
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface NavbarProps {}
 const CartPopup: FunctionComponent<NavbarProps> = () => {
-  const { cart, emptyCart, count } = useCart();
+  const { cart, emptyCart, count, updateProduct } = useCart();
   const isDisable = count() <= 0;
   return (
     <>
@@ -42,7 +42,7 @@ const CartPopup: FunctionComponent<NavbarProps> = () => {
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Cart</SheetTitle>
+            <SheetTitle className="text-3xl">Cart</SheetTitle>
             <div className="fixed bottom-2 z-10 flex w-80 justify-center">
               <Button
                 size="lg"
@@ -59,6 +59,12 @@ const CartPopup: FunctionComponent<NavbarProps> = () => {
             </div>
 
             <ScrollArea className="mt-4 h-[100vh] px-6 pb-8">
+              {count() <= 0 && (
+                <div className="relative top-[40vh] text-center text-4xl  text-gray-600">
+                  Your Cart is Empty
+                </div>
+              )}
+
               {cart.map((product) => (
                 <Product product={product} key={product.id} />
               ))}
@@ -71,6 +77,8 @@ const CartPopup: FunctionComponent<NavbarProps> = () => {
 };
 
 function Product(prop: { product: CartItem }) {
+  const { updateProduct } = useCart();
+
   return (
     <>
       <div className="flex flex-col items-center justify-center text-center">
@@ -91,6 +99,7 @@ function Product(prop: { product: CartItem }) {
             value={String(prop.product.quantity)}
             name="quantity"
             defaultValue="1"
+            onValueChange={(e) => updateProduct(prop.product, parseInt(e))}
           >
             <SelectTrigger className="w-24">
               <SelectValue placeholder="Select" />
