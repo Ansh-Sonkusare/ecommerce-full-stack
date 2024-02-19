@@ -22,7 +22,7 @@ export const Feature: FunctionComponent<FeatureProps> = async ({ id }) => {
     </div>
   );
 };
-function Product({ product }: { product: Product }) {
+export function Product({ product }: { product: Product }) {
   return (
     <div>
       <Link href={`/product/${product.id}`}>

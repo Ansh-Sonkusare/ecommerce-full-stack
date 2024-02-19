@@ -44,6 +44,42 @@ export const ProductRouter = createTRPCRouter({
       });
       return session.url;
     }),
+  checkoutCart: publicProcedure
+    .input(
+      z.array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          description: z.string().nullable(),
+          price: z.number(),
+          quantity: z.number(),
+        }),
+      ),
+    )
+    .query(async ({ ctx, input }) => {
+      const session = await ctx.stripe.checkout.sessions.create({
+        success_url: env.REDIRECT_URL,
+        line_items: [
+          ...input.map((product) => {
+            return {
+              price_data: {
+                currency: "usd",
+                unit_amount: product.price * 100,
+                product_data: {
+                  name: product.name,
+                  description: product.description ?? "",
+                },
+              },
+              quantity: product.quantity,
+            };
+          }),
+        ],
+        payment_method_types: ["card"],
+
+        mode: "payment",
+      });
+      return session.url;
+    }),
   getProductById: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {

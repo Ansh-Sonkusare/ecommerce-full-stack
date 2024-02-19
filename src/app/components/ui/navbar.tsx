@@ -1,17 +1,16 @@
-import { SignIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { SignInButton, UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs";
-import Image from "next/image";
+
 import Link from "next/link";
 
 import { type FunctionComponent } from "react";
+import CartPopup from "./cartPopup";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface NavbarProps {}
 
 const Navbar: FunctionComponent<NavbarProps> = () => {
   const { sessionId } = auth();
-
-
   return (
     <>
       <div className="fixed  top-0 z-50 w-full bg-white py-4 shadow-lg">
@@ -46,20 +45,14 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
                 Contact us
               </Link>
 
-              <Link className="" href="/">
-                <Image
-                  alt="Shopping Cart"
-                  src="/grocery-store.png"
-                  height={40}
-                  width={30}
-                ></Image>
-              </Link>
-
-              {sessionId ? (
-                <UserButton afterSignOutUrl="http://localhost:3000/" />
-              ) : (
-                <SignInButton />
-              )}
+              <CartPopup />
+              <div className="flex items-center">
+                {sessionId ? (
+                  <UserButton afterSignOutUrl="http://localhost:3000/" />
+                ) : (
+                  <SignInButton />
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -13,6 +13,8 @@ export type CartItem = Product & { quantity: number };
 export const useCart = create<{
   cart: Array<CartItem>;
   addProduct: (product: CartItem) => void;
+  updateProduct: (product: CartItem, quantity: number) => void;
+  emptyCart: () => void;
   removeProduct: (id: string) => void;
   getProduct: (id: string) => number;
   count: () => number;
@@ -20,6 +22,9 @@ export const useCart = create<{
   persist(
     (set, get) => ({
       cart: [],
+      emptyCart: () => {
+        set(() => ({ cart: [] }));
+      },
       count: () => {
         const { cart } = get();
         if (cart.length)
@@ -32,7 +37,13 @@ export const useCart = create<{
       addProduct: (product) => {
         const { cart } = get();
 
-        const cartItem = updateCart(product, cart);
+        const cartItem = addCart(product, cart);
+        set(() => ({ cart: cartItem }));
+      },
+      updateProduct: (product, quantity) => {
+        const { cart } = get();
+
+        const cartItem = updateCart(product, cart, quantity);
         set(() => ({ cart: cartItem }));
       },
       getProduct: (id) => {
@@ -52,7 +63,38 @@ export const useCart = create<{
   ),
 );
 
-const updateCart = (product: Product, cart: CartItem[]): CartItem[] => {
+const addCart = (product: CartItem, cart: CartItem[]): CartItem[] => {
+  const cartItem: CartItem = {
+    ...product,
+    quantity: product.quantity <= 5 ? product.quantity : 5,
+  };
+
+  const productOnCart = cart.map((item) => item.id).includes(product.id);
+
+  if (!productOnCart) cart.push(cartItem);
+  else {
+    return cart.map((item) => {
+      if (item.id === product.id) {
+        return {
+          ...item,
+          quantity:
+            item.quantity + product.quantity <= 5
+              ? item.quantity + product.quantity
+              : 5,
+        };
+      }
+      return item;
+    });
+  }
+  console.log(cart);
+
+  return cart;
+};
+const updateCart = (
+  product: Product,
+  cart: CartItem[],
+  quantity: number,
+): CartItem[] => {
   const cartItem: CartItem = { ...product, quantity: 1 };
   const productOnCart = cart.map((item) => item.id).includes(product.id);
 
@@ -60,7 +102,7 @@ const updateCart = (product: Product, cart: CartItem[]): CartItem[] => {
   else {
     return cart.map((item) => {
       if (item.id === product.id) {
-        return { ...item, quantity: item.quantity + 1 };
+        return { ...item, quantity: quantity };
       }
       return item;
     });

@@ -7,17 +7,6 @@ import {
   SelectContent,
   Select,
 } from "@/components/ui/select";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
@@ -28,10 +17,17 @@ import { useEffect, useState, type HTMLAttributes } from "react";
 import { api } from "@/trpc/react";
 import { BuyNow } from "@/lib/actions";
 import { useCart } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { ShoppingCart } from "lucide-react";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default function Product({ params }: { params: { productId: string } }) {
-  const [Model, setModel] = useState<boolean>(false);
   const { addProduct, getProduct } = useCart();
 
   const [quantity, setquantity] = useState<number>(
@@ -43,15 +39,16 @@ export default function Product({ params }: { params: { productId: string } }) {
       refetchOnWindowFocus: false,
     },
   );
+  const [model, setmodel] = useState<boolean>(false);
   const handleBuy = async () => {
-    setModel(!Model);
+    setmodel(true);
     await BuyNow({ ...product!, quantity: quantity });
 
     setquantity(1);
   };
 
   const handleAddCart = async () => {
-    addProduct({ ...product!, quantity: 1 });
+    addProduct({ ...product!, quantity: quantity });
     setquantity(1);
   };
 
@@ -137,7 +134,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                     size="lg"
                     variant="outline"
                   >
-                    <HeartIcon className="mr-2 h-4 w-4" />
+                    <ShoppingCart className="mr-2 h-4 w-4" />
                     Add to wishlist
                   </Button>
                 </div>
@@ -176,19 +173,16 @@ export default function Product({ params }: { params: { productId: string } }) {
               </div>
             </div>
           </div>
-          <AlertDialog open={Model} onOpenChange={() => setModel(!Model)}>
+          <AlertDialog open={model} onOpenChange={() => setmodel(false)}>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle className="font-4xl">
+                  Hang On
+                </AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  You are Being Redirected to Stripe
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
-              </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </>
