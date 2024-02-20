@@ -41,6 +41,7 @@
     "react-scroll": "^1.9.0",
     "server-only": "^0.0.1",
     "shadcn-ui": "^0.8.0",
+    "sharp": "^0.33.2",
     "stripe": "^14.17.0",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.2.1",

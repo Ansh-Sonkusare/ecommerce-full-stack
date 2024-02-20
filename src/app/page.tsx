@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Navbar from "./components/ui/navbar";
 import Feature from "./components/ui/feature";
 import Support from "./components/ui/supportPage";
 import Title from "./components/ui/title";
@@ -23,4 +21,3 @@ export default function HomePage() {
     </>
   );
 }
-1;
