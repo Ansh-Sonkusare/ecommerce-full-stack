@@ -5,6 +5,11 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator kysely {
+    provider = "prisma-kysely"
+    fileName = "types.ts"
+}
+
 datasource db {
     provider = "postgresql"
 

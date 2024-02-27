@@ -1,15 +1,14 @@
 "use client";
-import { useState, type FunctionComponent } from "react";
+import { type FunctionComponent } from "react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
-import { CartItem, useCart } from "@/lib/utils";
+import { type CartItem, useCart } from "@/lib/utils";
 import Link from "next/link";
 import {
   SelectValue,
@@ -19,7 +18,7 @@ import {
   Select,
 } from "@/components/ui/select";
 
-import { Button, ButtonProps } from "@/components/ui/button";
+import { Button, type ButtonProps } from "@/components/ui/button";
 import { Package, TrashIcon } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { checkoutCart } from "@/lib/actions";
