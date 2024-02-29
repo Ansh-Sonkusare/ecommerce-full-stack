@@ -4,6 +4,7 @@ import Title from "./components/ui/title";
 import Promo from "./components/ui/promo";
 import Footer from "./components/ui/footer";
 import SEO from "./components/ui/seo";
+import Category from "./components/ui/category";
 
 export default function HomePage() {
   return (
@@ -16,6 +17,8 @@ export default function HomePage() {
 
       <Support />
       <SEO />
+
+      <Category />
 
       <Footer />
     </>
