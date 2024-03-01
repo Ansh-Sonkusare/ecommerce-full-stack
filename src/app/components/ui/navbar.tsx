@@ -13,7 +13,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
   const { sessionId } = auth();
   return (
     <>
-      <div className="fixed  top-0 z-50 w-full bg-white py-4 shadow-lg">
+      <div className="fixed  top-0 z-50 w-full bg-white py-4 ">
         <div className="flex justify-center px-48">
           <div className="font flex w-full items-center justify-between ">
             <Link className="" href="/">
@@ -28,7 +28,7 @@ const Navbar: FunctionComponent<NavbarProps> = () => {
               </Link>
               <Link
                 className=" border-0 border-b-4  border-transparent px-4  py-2 transition   duration-300 hover:border-black "
-                href="/#Feature"
+                href="/products"
               >
                 Products
               </Link>

@@ -67,6 +67,7 @@ const CartPopup: FunctionComponent<NavbarProps> = () => {
               {cart.map((product) => (
                 <Product product={product} key={product.id} />
               ))}
+              <div className="mb-24"></div>
             </ScrollArea>
           </SheetHeader>
         </SheetContent>
