@@ -19,7 +19,7 @@ async function category() {
         <div>20% OFF</div>
       </div>
       {/* Product Map */}
-      <div className="mx-32 mt-20 grid grid-cols-3 gap-y-20">
+      <div className="mx-32 mt-20 grid grid-cols-3 gap-y-20 ">
         {data.map((product, idx) => (
           <Product
             id={product.id}
@@ -53,7 +53,7 @@ const Product: FunctionComponent<ProductProps> = ({
     <Link href={`/product/${id}`}>
       <div className="flex flex-col items-center">
         <div className="relative  rounded-sm  ">
-          <Image className="" src={url} alt="Cat" width={400} height={600} />
+          <Image className="hover:scale-105" src={url} alt="Cat" width={400} height={600} />
           {sale && (
             <div className=" absolute right-0  top-0 flex h-24 w-24 -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-black text-xl text-white">
               SALE
